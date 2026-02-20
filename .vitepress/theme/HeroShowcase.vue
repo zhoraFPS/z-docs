@@ -1,292 +1,197 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { withBase } from 'vitepress'
+import { ref, onMounted } from 'vue'
 
-const activeIndex = ref(0)
 const isVisible = ref(false)
-const containerRef = ref(null)
-const tiltX = ref(0)
-const tiltY = ref(0)
 
-const screens = [
-  { img: '/screenshots/dashboard.png', label: 'Dashboard' },
-  { img: '/screenshots/players.png', label: 'Players' },
-  { img: '/screenshots/livemap.jpg', label: 'Live Map' },
-  { img: '/screenshots/support.png', label: 'Support' },
-  { img: '/screenshots/settings.png', label: 'Settings' },
+const features = [
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+    title: 'Live Atlas',
+    desc: 'Real-time player positions with clustered blips, job-based color coding, and instant teleport.',
+    link: '/dashboard/live-map',
+    span: 'wide',
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
+    title: 'Player Management',
+    desc: 'Kick, ban, heal, teleport, edit inventories, manage vehicles — all from one panel.',
+    link: '/dashboard/player-management',
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`,
+    title: 'Granular Permissions',
+    desc: '12 permission strings, identifier-based staff management, namespace matching — zero server.cfg editing.',
+    link: '/core/permissions',
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+    title: 'Security Shield',
+    desc: 'Real-time exploit scanner, brute-force detection, and comprehensive audit logging.',
+    link: '/dashboard/security-logs',
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
+    title: 'Theme Presets',
+    desc: '10 curated color profiles — from Monochrome to Neon Synth — with one-click deployment.',
+    link: '/dashboard/getting-started',
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    title: 'Zero Dependencies',
+    desc: 'Single esbuild bundle, no node_modules. Drop in, start your server — ESX, QBCore, ox_core.',
+    link: '/core/installation',
+    span: 'wide',
+  },
 ]
 
-function onMouseMove(e) {
-  if (!containerRef.value) return
-  const rect = containerRef.value.getBoundingClientRect()
-  const x = (e.clientX - rect.left) / rect.width - 0.5
-  const y = (e.clientY - rect.top) / rect.height - 0.5
-  tiltX.value = y * -4
-  tiltY.value = x * 6
-}
-
-function onMouseLeave() {
-  tiltX.value = 0
-  tiltY.value = 0
-}
-
 onMounted(() => {
-  setTimeout(() => { isVisible.value = true }, 300)
+  setTimeout(() => { isVisible.value = true }, 200)
 })
 </script>
 
 <template>
-  <div class="showcase" :class="{ visible: isVisible }">
-    <!-- Tab pills -->
-    <div class="tabs">
-      <button
-        v-for="(screen, i) in screens"
-        :key="i"
-        :class="['tab', { active: activeIndex === i }]"
-        @click="activeIndex = i"
-      >
-        {{ screen.label }}
-      </button>
-    </div>
-
-    <!-- Screenshot display -->
-    <div
-      ref="containerRef"
-      class="frame-wrapper"
-      @mousemove="onMouseMove"
-      @mouseleave="onMouseLeave"
+  <div class="bento-grid" :class="{ visible: isVisible }">
+    <a
+      v-for="(feat, i) in features"
+      :key="i"
+      :href="feat.link"
+      :class="['bento-card', feat.span === 'wide' ? 'wide' : '']"
+      :style="{ '--delay': `${i * 60}ms` }"
     >
-      <!-- Ambient glow -->
-      <div class="ambient-glow"></div>
-
-      <!-- Main frame with perspective tilt -->
-      <div
-        class="frame"
-        :style="{
-          transform: `perspective(1200px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`
-        }"
-      >
-        <div class="frame-inner">
-          <img
-            v-for="(screen, i) in screens"
-            :key="i"
-            :src="withBase(screen.img)"
-            :alt="screen.label"
-            :class="['screen-img', { active: activeIndex === i }]"
-            loading="lazy"
-          />
-        </div>
-
-        <!-- Shine overlay -->
-        <div class="shine"></div>
+      <div class="card-inner">
+        <div class="card-icon" v-html="feat.icon"></div>
+        <h3>{{ feat.title }}</h3>
+        <p>{{ feat.desc }}</p>
+        <span class="card-arrow">→</span>
       </div>
-
-      <!-- Bottom gradient fade -->
-      <div class="fade-out"></div>
-    </div>
+    </a>
   </div>
 </template>
 
 <style scoped>
-.showcase {
-  max-width: 960px;
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 0 24px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
   opacity: 0;
-  transform: translateY(32px) scale(0.98);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.showcase.visible {
+.bento-grid.visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
-/* ── Tab pills ── */
-.tabs {
+.bento-card {
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  background: var(--vp-c-bg);
+  transition: background 0.3s ease;
+}
+
+.bento-card.wide {
+  grid-column: span 2;
+}
+
+.card-inner {
+  padding: 32px;
+  position: relative;
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 2px;
-  margin-bottom: 28px;
-  padding: 3px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 10px;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--vp-c-brand-1);
+  margin-bottom: 20px;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.tab {
-  padding: 7px 18px;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 13px;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  border-radius: 7px;
-  transition: color 0.25s ease, background 0.25s ease;
-  letter-spacing: 0.005em;
-  position: relative;
+.bento-card:hover .card-icon {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--vp-c-brand-2);
 }
 
-.tab:hover {
-  color: rgba(255, 255, 255, 0.65);
+.bento-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+  line-height: 1.3;
 }
 
-.tab.active {
-  background: rgba(255, 255, 255, 0.09);
-  color: #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+.bento-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--vp-c-text-2);
+  margin: 0;
+  max-width: 360px;
 }
 
-/* ── Frame wrapper ── */
-.frame-wrapper {
-  position: relative;
-  cursor: default;
-}
-
-/* ── Ambient glow ── */
-.ambient-glow {
+.card-arrow {
   position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70%;
-  height: 60%;
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
-  filter: blur(60px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Frame with tilt ── */
-.frame {
-  position: relative;
-  z-index: 1;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #0d0d10;
-  transition: transform 0.15s ease-out;
-  will-change: transform;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.03),
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    0 12px 40px rgba(0, 0, 0, 0.3),
-    0 30px 80px -20px rgba(0, 0, 0, 0.4);
-}
-
-.frame-inner {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-}
-
-.screen-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  top: 32px;
+  right: 32px;
+  font-size: 16px;
+  color: var(--vp-c-text-3);
   opacity: 0;
-  transform: scale(1.01);
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
-.screen-img.active {
+.bento-card:hover .card-arrow {
   opacity: 1;
-  transform: scale(1);
+  transform: translateX(0);
+  color: var(--vp-c-brand-1);
 }
 
-/* ── Subtle shine overlay ── */
-.shine {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.03) 45%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0.03) 55%,
-    transparent 60%
-  );
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* ── Bottom fade ── */
-.fade-out {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  background: linear-gradient(to top, var(--vp-c-bg), transparent);
-  pointer-events: none;
-  z-index: 4;
+.bento-card:hover {
+  background: var(--vp-c-bg-soft);
 }
 
 /* ── Light mode ── */
-:root:not(.dark) .tabs {
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.06);
-}
-
-:root:not(.dark) .tab {
-  color: rgba(0, 0, 0, 0.35);
-}
-
-:root:not(.dark) .tab:hover {
-  color: rgba(0, 0, 0, 0.65);
-}
-
-:root:not(.dark) .tab.active {
+:root:not(.dark) .bento-grid {
   background: rgba(0, 0, 0, 0.06);
-  color: #000;
 }
 
-:root:not(.dark) .ambient-glow {
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
+:root:not(.dark) .card-icon {
+  background: rgba(99, 102, 241, 0.06);
 }
 
-:root:not(.dark) .frame {
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.06),
-    0 12px 40px rgba(0, 0, 0, 0.08),
-    0 30px 80px -20px rgba(0, 0, 0, 0.12);
+:root:not(.dark) .bento-card:hover .card-icon {
+  background: rgba(99, 102, 241, 0.1);
 }
 
 /* ── Mobile ── */
-@media (max-width: 768px) {
-  .tabs {
-    gap: 0;
-    overflow-x: auto;
-    width: calc(100% - 8px);
-    justify-content: flex-start;
+@media (max-width: 640px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    border-radius: 12px;
   }
 
-  .tab {
-    padding: 6px 14px;
-    font-size: 12px;
-    white-space: nowrap;
-    flex-shrink: 0;
+  .bento-card.wide {
+    grid-column: span 1;
   }
 
-  .showcase {
-    padding: 0 12px;
+  .card-inner {
+    padding: 24px;
   }
 
-  .frame {
-    border-radius: 8px;
+  .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 </style>
