@@ -42,3 +42,18 @@ Used by the Dashboard for the Helpdesk/Support system.
 | `claimed_by` | `VARCHAR(50)` | Name of the admin handling it. |
 
 *Note: The actual chat messages within a ticket are linked via `ticket_id` in the secondary `z_ticket_messages` table.*
+
+## `z_staff`
+Used by the Dashboard to store staff members added via the **System Settings → Staff Management** UI. These entries grant dashboard access without requiring ACE permissions in `server.cfg`.
+
+| Column | Type | Details |
+| :--- | :--- | :--- |
+| `identifier` | `VARCHAR(100)` | Primary Key. Any FiveM identifier (e.g., `license:`, `steam:`, `discord:`, `fivem:`, `ip:`). |
+| `name` | `VARCHAR(50)` | Display name for the staff member. |
+| `role` | `VARCHAR(30)` | Cosmetic role label (e.g., `god`, `admin`, `mod`, `supporter`). Default: `mod`. |
+| `permissions` | `TEXT` | JSON array of granular permission strings (e.g., `["zcore.admin.dashboard","zcore.admin.players"]`). Use `["*"]` for full access. |
+| `created_at` | `TIMESTAMP` | When the staff member was added. |
+
+> [!TIP]
+> When a player connects, Z-Core loops through all their FiveM identifiers and checks `z_staff` for a match. The permissions from the database are **merged** with any ACE/Config permissions they already have.
+

@@ -40,6 +40,7 @@ export default defineConfig({
                         { text: 'Live Map', link: '/dashboard/live-map' },
                         { text: 'Player Management', link: '/dashboard/player-management' },
                         { text: 'Economy & Vehicles', link: '/dashboard/economy-vehicles' },
+                        { text: 'Staff Management', link: '/dashboard/staff-management' },
                         { text: 'Security Logs', link: '/dashboard/security-logs' }
                     ]
                 },
