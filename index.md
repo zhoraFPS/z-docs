@@ -2,11 +2,12 @@
 layout: home
 
 hero:
-  text: "The ultimate admin toolkit for your FiveM server."
-  tagline: A powerful bridge that adapts to any framework, and a real-time dashboard to manage your entire community — no coding required.
+  name: "Z-Docs"
+  text: "Premium Scripts & Documentation."
+  tagline: We build high-quality FiveM scripts for your server. Z-DOCS is the central hub for all our resource documentation, including our powerful Z-Core bridge and real-time Z-Admin dashboard.
   actions:
     - theme: brand
-      text: Get Started
+      text: Browse Documentation
       link: /core/introduction
     - theme: alt
       text: View on GitHub
@@ -17,125 +18,108 @@ hero:
 <div class="hero-ambient-glow"></div>
 
 <div class="premium-container">
-  
-  <!-- Z-Core Section -->
-  <div class="product-group">
-    <div class="product-header">
-      <h2 class="premium-heading">Z-Core</h2>
-      <p class="premium-desc">The intelligent bridge for your server. It automatically detects your framework and provides the foundation for all your admin tools to work seamlessly.</p>
-    </div>
-    
-    <div class="glass-grid core-grid">
-      <!-- Universal Compatibility -->
-      <a href="/core/introduction" class="glass-card wide">
-        <div class="icon-wrapper">
-          <div class="icon-glow"></div>
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m7 19 5 3 5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 17 3-5-3-5"/></svg>
-        </div>
-        <div class="card-content">
-          <h3>Universal Compatibility</h3>
-          <p>Whether you use ESX, QBCore, or ox_core — Z-Core adapts automatically. You don't need to change anything about your existing setup.</p>
-        </div>
-      </a>
-      
-      <!-- Effortless Installation -->
-      <a href="/core/installation" class="glass-card">
-        <div class="icon-wrapper">
-          <div class="icon-glow"></div>
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-        </div>
-        <div class="card-content">
-          <h3>Effortless Installation</h3>
-          <p>Download the folder, start it in your server configuration, and it just works. No complicated setups.</p>
-        </div>
-      </a>
-      
-      <!-- Permission System -->
-      <a href="/core/permissions" class="glass-card">
-        <div class="icon-wrapper">
-          <div class="icon-glow"></div>
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <div class="card-content">
-          <h3>Access Control</h3>
-          <p>Decide exactly which team members can access certain features. Secure, reliable, and easy to manage.</p>
-        </div>
-      </a>
-    </div>
-  </div>
+<!-- Z-Core Section -->
+<div class="product-group">
+<div class="product-header">
+<h2 class="premium-heading">Z-Core</h2>
+<p class="premium-desc">The intelligent bridge for your server. It automatically detects your framework and provides the foundation for all your admin tools to work seamlessly.</p>
+</div>
+<div class="glass-grid core-grid">
+<a href="/core/introduction" class="glass-card wide">
+<div class="icon-wrapper">
+<div class="icon-glow"></div>
+<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m7 19 5 3 5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 17 3-5-3-5"/></svg>
+</div>
+<div class="card-content">
+<h3>Universal Compatibility</h3>
+<p>Whether you use ESX, QBCore, or ox_core — Z-Core adapts automatically. You don't need to change anything about your existing setup.</p>
+</div>
+</a>
+<a href="/core/installation" class="glass-card">
+<div class="icon-wrapper">
+<div class="icon-glow"></div>
+<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+</div>
+<div class="card-content">
+<h3>Effortless Installation</h3>
+<p>Download the folder, start it in your server configuration, and it just works. No complicated setups.</p>
+</div>
+</a>
+<a href="/core/permissions" class="glass-card">
+<div class="icon-wrapper">
+<div class="icon-glow"></div>
+<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+</div>
+<div class="card-content">
+<h3>Access Control</h3>
+<p>Decide exactly which team members can access certain features. Secure, reliable, and easy to manage.</p>
+</div>
+</a>
+</div>
+</div>
 
-  <!-- Divider -->
-  <div class="premium-divider"></div>
+<!-- Divider -->
+<div class="premium-divider"></div>
 
-  <!-- Z-Admin Section -->
-  <div class="product-group">
-    <div class="product-header">
-      <h2 class="premium-heading">Z-Admin</h2>
-      <p class="premium-desc">Your command center. A beautiful, real-time dashboard to manage players, view your map, handle support tickets, and keep your community safe.</p>
-    </div>
-    
-    <div class="glass-grid admin-grid">
-      <!-- Player Management -->
-      <a href="/dashboard/player-management" class="glass-card">
-        <div class="icon-wrapper">
-          <div class="icon-glow"></div>
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <div class="card-content">
-          <h3>Player Management</h3>
-          <p>Kick, ban, heal, or teleport players instantly. Check their inventories and manage their vehicles with one click.</p>
-        </div>
-      </a>
-
-      <!-- Live Map -->
-      <a href="/dashboard/live-map" class="glass-card">
-        <div class="icon-wrapper">
-          <div class="icon-glow"></div>
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
-        </div>
-        <div class="card-content">
-          <h3>Interactive Live Map</h3>
-          <p>See exactly where every player is on the map in real-time. Click to inspect, spectate, or teleport immediately.</p>
-        </div>
-      </a>
-
-      <!-- Security & Logs -->
-      <a href="/dashboard/security-logs" class="glass-card wide">
-        <div class="icon-wrapper">
-          <div class="icon-glow"></div>
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="card-content">
-          <h3>Security & Audit Logs</h3>
-          <p>Protect your server automatically. The system monitors for suspicious activity, blocked exploits, and logs every important action your admins take.</p>
-        </div>
-      </a>
-
-      <!-- Support Tickets -->
-      <a href="/dashboard/getting-started" class="glass-card">
-        <div class="icon-wrapper">
-          <div class="icon-glow"></div>
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div class="card-content">
-          <h3>Support Tickets</h3>
-          <p>Players can ask for help directly in-game. Your team receives the tickets on the dashboard and can reply or resolve them quickly.</p>
-        </div>
-      </a>
-
-      <!-- Custom Themes -->
-      <a href="/dashboard/getting-started" class="glass-card">
-        <div class="icon-wrapper">
-          <div class="icon-glow"></div>
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 20 5-5"/><path d="M12 2A10 10 0 1 0 22 12"/><path d="M12 12a2 2 0 1 0-2-2"/></svg>
-        </div>
-        <div class="card-content">
-          <h3>Beautiful Design</h3>
-          <p>Choose from multiple curated color themes to make the dashboard match your server's unique brand perfectly.</p>
-        </div>
-      </a>
-    </div>
-  </div>
+<!-- Z-Admin Section -->
+<div class="product-group">
+<div class="product-header">
+<h2 class="premium-heading">Z-Admin</h2>
+<p class="premium-desc">Your command center. A beautiful, real-time dashboard to manage players, view your map, handle support tickets, and keep your community safe.</p>
+</div>
+<div class="glass-grid admin-grid">
+<a href="/dashboard/player-management" class="glass-card">
+<div class="icon-wrapper">
+<div class="icon-glow"></div>
+<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+</div>
+<div class="card-content">
+<h3>Player Management</h3>
+<p>Kick, ban, heal, or teleport players instantly. Check their inventories and manage their vehicles with one click.</p>
+</div>
+</a>
+<a href="/dashboard/live-map" class="glass-card">
+<div class="icon-wrapper">
+<div class="icon-glow"></div>
+<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
+</div>
+<div class="card-content">
+<h3>Interactive Live Map</h3>
+<p>See exactly where every player is on the map in real-time. Click to inspect, spectate, or teleport immediately.</p>
+</div>
+</a>
+<a href="/dashboard/security-logs" class="glass-card wide">
+<div class="icon-wrapper">
+<div class="icon-glow"></div>
+<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+</div>
+<div class="card-content">
+<h3>Security & Audit Logs</h3>
+<p>Protect your server automatically. The system monitors for suspicious activity, blocked exploits, and logs every important action your admins take.</p>
+</div>
+</a>
+<a href="/dashboard/getting-started" class="glass-card">
+<div class="icon-wrapper">
+<div class="icon-glow"></div>
+<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</div>
+<div class="card-content">
+<h3>Support Tickets</h3>
+<p>Players can ask for help directly in-game. Your team receives the tickets on the dashboard and can reply or resolve them quickly.</p>
+</div>
+</a>
+<a href="/dashboard/getting-started" class="glass-card">
+<div class="icon-wrapper">
+<div class="icon-glow"></div>
+<svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 20 5-5"/><path d="M12 2A10 10 0 1 0 22 12"/><path d="M12 12a2 2 0 1 0-2-2"/></svg>
+</div>
+<div class="card-content">
+<h3>Beautiful Design</h3>
+<p>Choose from multiple curated color themes to make the dashboard match your server's unique brand perfectly.</p>
+</div>
+</a>
+</div>
+</div>
 </div>
 
 <style>
