@@ -1,51 +1,76 @@
-/* Custom theme overrides for Z-Docs */
+/* Z-Docs Custom Theme */
 
 :root {
     --vp-c-brand-1: #6366f1;
     --vp-c-brand-2: #818cf8;
     --vp-c-brand-3: #a5b4fc;
+    --vp-c-brand-soft: rgba(99, 102, 241, 0.12);
     --vp-home-hero-name-color: transparent;
-    --vp-home-hero-name-background: linear-gradient(135deg, #ffffff 40%, #6366f1 100%);
-    --vp-home-hero-image-background-image: none;
+    --vp-home-hero-name-background: linear-gradient(135deg, #fff 30%, #6366f1);
 }
 
 .dark {
-    --vp-c-bg: #0a0a0c;
-    --vp-c-bg-alt: #0d0d10;
+    --vp-c-bg: #09090b;
+    --vp-c-bg-alt: #0c0c0f;
     --vp-c-bg-soft: #111114;
+    --vp-c-bg-elv: #111114;
+    --vp-home-hero-name-background: linear-gradient(135deg, #fff 30%, #818cf8);
 }
 
-/* Hero section enhancements */
+/* Hero: clean, minimal */
 .VPHero .VPImage {
     display: none !important;
 }
 
-.VPHero {
-    padding-bottom: 0 !important;
+.VPHero .name {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
 }
 
 .VPHero .text {
-    font-size: 56px !important;
+    font-size: clamp(36px, 5vw, 56px) !important;
     letter-spacing: -0.03em !important;
     line-height: 1.1 !important;
-    font-weight: 800 !important;
+    font-weight: 700 !important;
+    max-width: 600px !important;
 }
 
 .VPHero .tagline {
-    font-size: 18px !important;
-    color: rgba(255, 255, 255, 0.5) !important;
+    font-size: 17px !important;
+    line-height: 1.6 !important;
     max-width: 520px !important;
-    margin: 0 auto !important;
+    opacity: 0.6;
 }
 
-/* Feature cards */
-.VPFeature {
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    background: rgba(255, 255, 255, 0.02) !important;
-    transition: all 0.3s ease !important;
+/* Buttons: refined */
+.VPHero .actions .VPButton.brand {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    padding: 10px 22px !important;
 }
 
-.VPFeature:hover {
-    border-color: rgba(99, 102, 241, 0.2) !important;
-    transform: translateY(-2px);
+.VPHero .actions .VPButton.alt {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    padding: 10px 22px !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.VPHero .actions .VPButton.alt:hover {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Remove default hero padding to flow into custom section */
+.VPHero {
+    padding-bottom: 32px !important;
+}
+
+/* Hide VitePress built-in features section if it exists */
+.VPFeatures {
+    display: none !important;
 }

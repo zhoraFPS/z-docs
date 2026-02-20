@@ -2,185 +2,184 @@
 import { ref, onMounted } from 'vue'
 import { withBase } from 'vitepress'
 
+const activeTab = ref(0)
 const isVisible = ref(false)
 
+const tabs = [
+  { label: 'Dashboard', img: '/screenshots/dashboard.png' },
+  { label: 'Players', img: '/screenshots/players.png' },
+  { label: 'Settings', img: '/screenshots/settings.png' },
+  { label: 'Security', img: '/screenshots/security.png' },
+]
+
 onMounted(() => {
-  setTimeout(() => { isVisible.value = true }, 100)
+  setTimeout(() => { isVisible.value = true }, 150)
 })
 </script>
 
 <template>
-  <div class="hero-showcase" :class="{ visible: isVisible }">
-    <div class="showcase-container">
-      <!-- Main large screenshot -->
-      <div class="screenshot-main">
-        <div class="browser-frame">
-          <div class="browser-dots">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-          </div>
-          <img :src="withBase('/screenshots/dashboard.png')" alt="Z-Core Dashboard Overview" loading="lazy" />
-        </div>
-      </div>
-
-      <!-- Floating side panels -->
-      <div class="screenshot-float float-right">
-        <div class="browser-frame">
-          <div class="browser-dots">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-          </div>
-          <img :src="withBase('/screenshots/players.png')" alt="Player Management" loading="lazy" />
-        </div>
-      </div>
-
-      <div class="screenshot-float float-left">
-        <div class="browser-frame">
-          <div class="browser-dots">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-          </div>
-          <img :src="withBase('/screenshots/settings.png')" alt="System Settings" loading="lazy" />
-        </div>
-      </div>
+  <div class="showcase" :class="{ visible: isVisible }">
+    <!-- Tab selector -->
+    <div class="tab-bar">
+      <button
+        v-for="(tab, i) in tabs"
+        :key="i"
+        :class="['tab', { active: activeTab === i }]"
+        @click="activeTab = i"
+      >
+        {{ tab.label }}
+      </button>
     </div>
 
-    <!-- Gradient fade at bottom -->
-    <div class="showcase-fade"></div>
+    <!-- Screenshot display -->
+    <div class="screenshot-wrapper">
+      <div class="screenshot-frame">
+        <img
+          v-for="(tab, i) in tabs"
+          :key="i"
+          :src="withBase(tab.img)"
+          :alt="tab.label"
+          :class="['screenshot-img', { active: activeTab === i }]"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Gradient fade at bottom -->
+      <div class="screenshot-fade"></div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.hero-showcase {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 3rem auto 0;
-  perspective: 1800px;
-  padding: 0 1.5rem;
+.showcase {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.hero-showcase.visible {
+.showcase.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.showcase-container {
-  position: relative;
-  width: 100%;
-  min-height: 500px;
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 24px;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Browser frame wrapper */
-.browser-frame {
+.tab {
+  padding: 8px 20px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.01em;
+}
+
+.tab:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.tab.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.screenshot-wrapper {
+  position: relative;
   border-radius: 12px;
   overflow: hidden;
-  background: #0d0d0f;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
-    0 25px 80px -12px rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(100, 120, 255, 0.04);
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 20px 60px -15px rgba(0, 0, 0, 0.5),
+    0 0 80px rgba(99, 102, 241, 0.04);
 }
 
-.browser-dots {
-  display: flex;
-  gap: 6px;
-  padding: 10px 14px;
-  background: #0a0a0c;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-.dot.red { background: #ff5f57; }
-.dot.yellow { background: #febc2e; }
-.dot.green { background: #28c840; }
-
-.browser-frame img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Main screenshot — centered, slightly tilted */
-.screenshot-main {
+.screenshot-frame {
   position: relative;
-  z-index: 3;
-  width: 85%;
-  margin: 0 auto;
-  transform: rotateX(4deg) rotateY(0deg);
-  transition: transform 0.6s ease;
+  aspect-ratio: 16 / 9.2;
+  background: #0a0a0c;
+  overflow: hidden;
 }
 
-.screenshot-main:hover {
-  transform: rotateX(2deg) rotateY(0deg) scale(1.01);
-}
-
-/* Floating side panels */
-.screenshot-float {
+.screenshot-img {
   position: absolute;
-  width: 55%;
-  z-index: 2;
-  transition: transform 0.6s ease, opacity 0.6s ease;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
-.screenshot-float:hover {
-  z-index: 5;
-  transform: rotateX(2deg) rotateY(0deg) scale(1.03) !important;
+.screenshot-img.active {
+  opacity: 1;
 }
 
-.float-right {
-  top: 12%;
-  right: -5%;
-  transform: rotateX(4deg) rotateY(-6deg) scale(0.88);
-  opacity: 0.85;
-}
-
-.float-left {
-  top: 25%;
-  left: -5%;
-  transform: rotateX(4deg) rotateY(6deg) scale(0.82);
-  opacity: 0.7;
-}
-
-/* Bottom gradient fade */
-.showcase-fade {
+.screenshot-fade {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 200px;
+  height: 120px;
   background: linear-gradient(to top, var(--vp-c-bg), transparent);
-  z-index: 10;
   pointer-events: none;
+  z-index: 2;
 }
 
-/* Responsive */
+/* Light mode adjustments */
+:root:not(.dark) .tab-bar {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+:root:not(.dark) .tab {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+:root:not(.dark) .tab:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+:root:not(.dark) .tab.active {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000;
+}
+
+:root:not(.dark) .screenshot-wrapper {
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 20px 60px -15px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.03);
+}
+
 @media (max-width: 768px) {
-  .showcase-container {
-    min-height: 300px;
+  .tab {
+    padding: 6px 14px;
+    font-size: 12px;
   }
 
-  .screenshot-main {
-    width: 95%;
-    transform: rotateX(2deg);
-  }
-
-  .screenshot-float {
-    display: none;
-  }
-
-  .hero-showcase {
-    margin-top: 2rem;
+  .showcase {
+    padding: 0 16px;
   }
 }
 </style>
