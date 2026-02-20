@@ -14,49 +14,49 @@ hero:
       link: /dashboard/getting-started
 ---
 
-<div class="custom-section">
-  <div class="section-header">
-    <span class="overline">FEATURED</span>
-    <h2>Z-Core Admin Dashboard</h2>
-    <p>Real-time server management with granular permissions, live map tracking, and in-browser staff management.</p>
+<div class="showcase-section">
+  <div class="showcase-header">
+    <span class="overline">Z-CORE DASHBOARD</span>
+    <h2>Your server. One panel.</h2>
+    <p>Player management, live map, support tickets, security — all from one unified admin interface.</p>
   </div>
   <HeroShowcase />
 </div>
 
 <style>
-.custom-section {
+.showcase-section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 48px 24px 80px;
+  padding: 24px 24px 100px;
 }
 
-.section-header {
+.showcase-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 
 .overline {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--vp-c-brand-1);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   display: block;
 }
 
-.section-header h2 {
-  font-size: 32px;
+.showcase-header h2 {
+  font-size: clamp(28px, 4vw, 40px);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  margin: 0 0 12px;
-  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin: 0 0 14px;
+  line-height: 1.15;
 }
 
-.section-header p {
+.showcase-header p {
   font-size: 16px;
   color: var(--vp-c-text-2);
-  max-width: 520px;
+  max-width: 480px;
   margin: 0 auto;
   line-height: 1.6;
 }

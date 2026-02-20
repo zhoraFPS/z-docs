@@ -2,184 +2,188 @@
 import { ref, onMounted } from 'vue'
 import { withBase } from 'vitepress'
 
-const activeTab = ref(0)
 const isVisible = ref(false)
+const hoveredIndex = ref(-1)
 
-const tabs = [
-  { label: 'Dashboard', img: '/screenshots/dashboard.png' },
-  { label: 'Players', img: '/screenshots/players.png' },
-  { label: 'Settings', img: '/screenshots/settings.png' },
-  { label: 'Security', img: '/screenshots/security.png' },
+const screens = [
+  { img: '/screenshots/dashboard.png', label: 'Dashboard', desc: 'Live Atlas · Network Traffic · Security Log' },
+  { img: '/screenshots/players.png', label: 'Players', desc: 'Real-time player management & actions' },
+  { img: '/screenshots/settings.png', label: 'Settings', desc: 'Theme presets & appearance branding' },
+  { img: '/screenshots/support.png', label: 'Support', desc: 'Ticket system with status tracking' },
+  { img: '/screenshots/livemap.jpg', label: 'Live Map', desc: 'Full-screen Atlas with player blips' },
 ]
 
 onMounted(() => {
-  setTimeout(() => { isVisible.value = true }, 150)
+  setTimeout(() => { isVisible.value = true }, 200)
 })
 </script>
 
 <template>
-  <div class="showcase" :class="{ visible: isVisible }">
-    <!-- Tab selector -->
-    <div class="tab-bar">
-      <button
-        v-for="(tab, i) in tabs"
+  <div class="stack-showcase" :class="{ visible: isVisible }">
+    <div
+      class="stack-container"
+      @mouseleave="hoveredIndex = -1"
+    >
+      <div
+        v-for="(screen, i) in screens"
         :key="i"
-        :class="['tab', { active: activeTab === i }]"
-        @click="activeTab = i"
+        :class="['stack-card', { hovered: hoveredIndex === i, dimmed: hoveredIndex !== -1 && hoveredIndex !== i }]"
+        :style="{
+          '--i': i,
+          '--total': screens.length,
+          zIndex: hoveredIndex === i ? 50 : screens.length - i,
+        }"
+        @mouseenter="hoveredIndex = i"
       >
-        {{ tab.label }}
-      </button>
-    </div>
+        <img :src="withBase(screen.img)" :alt="screen.label" loading="lazy" />
 
-    <!-- Screenshot display -->
-    <div class="screenshot-wrapper">
-      <div class="screenshot-frame">
-        <img
-          v-for="(tab, i) in tabs"
-          :key="i"
-          :src="withBase(tab.img)"
-          :alt="tab.label"
-          :class="['screenshot-img', { active: activeTab === i }]"
-          loading="lazy"
-        />
+        <!-- Label overlay -->
+        <div class="card-label">
+          <span class="card-title">{{ screen.label }}</span>
+          <span class="card-desc">{{ screen.desc }}</span>
+        </div>
       </div>
-
-      <!-- Gradient fade at bottom -->
-      <div class="screenshot-fade"></div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.showcase {
-  max-width: 1100px;
+.stack-showcase {
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 24px;
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.showcase.visible {
+.stack-showcase.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.tab-bar {
-  display: flex;
-  justify-content: center;
-  gap: 4px;
-  margin-bottom: 24px;
-  padding: 4px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tab {
-  padding: 8px 20px;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 13px;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  border-radius: 7px;
-  transition: all 0.2s ease;
-  letter-spacing: 0.01em;
-}
-
-.tab:hover {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.tab.active {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-}
-
-.screenshot-wrapper {
+.stack-container {
   position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.03),
-    0 20px 60px -15px rgba(0, 0, 0, 0.5),
-    0 0 80px rgba(99, 102, 241, 0.04);
+  width: 100%;
+  /* Height based on the main card's aspect ratio plus the stack offset */
+  aspect-ratio: 16 / 11;
+  perspective: 1200px;
 }
 
-.screenshot-frame {
-  position: relative;
-  aspect-ratio: 16 / 9.2;
-  background: #0a0a0c;
-  overflow: hidden;
-}
-
-.screenshot-img {
+.stack-card {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  backface-visibility: hidden;
+
+  /* Default stacked position — each card shifts down and right */
+  transform:
+    translateY(calc(var(--i) * 28px))
+    translateX(calc(var(--i) * 6px))
+    scale(calc(1 - var(--i) * 0.025));
+
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s ease,
+    filter 0.4s ease,
+    box-shadow 0.4s ease;
+
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
-.screenshot-img.active {
-  opacity: 1;
+.stack-card img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-.screenshot-fade {
+/* Hovered card — lifts up and forward */
+.stack-card.hovered {
+  transform:
+    translateY(-8px)
+    translateX(0px)
+    scale(1.02);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 40px rgba(99, 102, 241, 0.06);
+  z-index: 50 !important;
+}
+
+/* Non-hovered cards dim */
+.stack-card.dimmed {
+  opacity: 0.45;
+  filter: brightness(0.7) saturate(0.8);
+}
+
+/* Label overlay — shows on hover */
+.card-label {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 120px;
-  background: linear-gradient(to top, var(--vp-c-bg), transparent);
+  padding: 20px 24px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
-  z-index: 2;
 }
 
-/* Light mode adjustments */
-:root:not(.dark) .tab-bar {
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.06);
+.stack-card.hovered .card-label {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-:root:not(.dark) .tab {
-  color: rgba(0, 0, 0, 0.4);
+.card-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.01em;
 }
 
-:root:not(.dark) .tab:hover {
-  color: rgba(0, 0, 0, 0.7);
+.card-desc {
+  display: block;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+  letter-spacing: 0.01em;
 }
 
-:root:not(.dark) .tab.active {
-  background: rgba(0, 0, 0, 0.06);
-  color: #000;
-}
-
-:root:not(.dark) .screenshot-wrapper {
-  border-color: rgba(0, 0, 0, 0.1);
-  box-shadow:
-    0 20px 60px -15px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(0, 0, 0, 0.03);
-}
-
+/* Mobile: simpler layout */
 @media (max-width: 768px) {
-  .tab {
-    padding: 6px 14px;
-    font-size: 12px;
+  .stack-container {
+    aspect-ratio: auto;
+    height: auto;
   }
 
-  .showcase {
-    padding: 0 16px;
+  .stack-card {
+    position: relative;
+    transform: none;
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+
+  .stack-card.hovered {
+    transform: none;
+  }
+
+  .stack-card.dimmed {
+    opacity: 1;
+    filter: none;
+  }
+
+  .card-label {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
