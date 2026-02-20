@@ -1,189 +1,292 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { withBase } from 'vitepress'
 
+const activeIndex = ref(0)
 const isVisible = ref(false)
-const hoveredIndex = ref(-1)
+const containerRef = ref(null)
+const tiltX = ref(0)
+const tiltY = ref(0)
 
 const screens = [
-  { img: '/screenshots/dashboard.png', label: 'Dashboard', desc: 'Live Atlas · Network Traffic · Security Log' },
-  { img: '/screenshots/players.png', label: 'Players', desc: 'Real-time player management & actions' },
-  { img: '/screenshots/settings.png', label: 'Settings', desc: 'Theme presets & appearance branding' },
-  { img: '/screenshots/support.png', label: 'Support', desc: 'Ticket system with status tracking' },
-  { img: '/screenshots/livemap.jpg', label: 'Live Map', desc: 'Full-screen Atlas with player blips' },
+  { img: '/screenshots/dashboard.png', label: 'Dashboard' },
+  { img: '/screenshots/players.png', label: 'Players' },
+  { img: '/screenshots/livemap.jpg', label: 'Live Map' },
+  { img: '/screenshots/support.png', label: 'Support' },
+  { img: '/screenshots/settings.png', label: 'Settings' },
 ]
 
+function onMouseMove(e) {
+  if (!containerRef.value) return
+  const rect = containerRef.value.getBoundingClientRect()
+  const x = (e.clientX - rect.left) / rect.width - 0.5
+  const y = (e.clientY - rect.top) / rect.height - 0.5
+  tiltX.value = y * -4
+  tiltY.value = x * 6
+}
+
+function onMouseLeave() {
+  tiltX.value = 0
+  tiltY.value = 0
+}
+
 onMounted(() => {
-  setTimeout(() => { isVisible.value = true }, 200)
+  setTimeout(() => { isVisible.value = true }, 300)
 })
 </script>
 
 <template>
-  <div class="stack-showcase" :class="{ visible: isVisible }">
-    <div
-      class="stack-container"
-      @mouseleave="hoveredIndex = -1"
-    >
-      <div
+  <div class="showcase" :class="{ visible: isVisible }">
+    <!-- Tab pills -->
+    <div class="tabs">
+      <button
         v-for="(screen, i) in screens"
         :key="i"
-        :class="['stack-card', { hovered: hoveredIndex === i, dimmed: hoveredIndex !== -1 && hoveredIndex !== i }]"
-        :style="{
-          '--i': i,
-          '--total': screens.length,
-          zIndex: hoveredIndex === i ? 50 : screens.length - i,
-        }"
-        @mouseenter="hoveredIndex = i"
+        :class="['tab', { active: activeIndex === i }]"
+        @click="activeIndex = i"
       >
-        <img :src="withBase(screen.img)" :alt="screen.label" loading="lazy" />
+        {{ screen.label }}
+      </button>
+    </div>
 
-        <!-- Label overlay -->
-        <div class="card-label">
-          <span class="card-title">{{ screen.label }}</span>
-          <span class="card-desc">{{ screen.desc }}</span>
+    <!-- Screenshot display -->
+    <div
+      ref="containerRef"
+      class="frame-wrapper"
+      @mousemove="onMouseMove"
+      @mouseleave="onMouseLeave"
+    >
+      <!-- Ambient glow -->
+      <div class="ambient-glow"></div>
+
+      <!-- Main frame with perspective tilt -->
+      <div
+        class="frame"
+        :style="{
+          transform: `perspective(1200px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`
+        }"
+      >
+        <div class="frame-inner">
+          <img
+            v-for="(screen, i) in screens"
+            :key="i"
+            :src="withBase(screen.img)"
+            :alt="screen.label"
+            :class="['screen-img', { active: activeIndex === i }]"
+            loading="lazy"
+          />
         </div>
+
+        <!-- Shine overlay -->
+        <div class="shine"></div>
       </div>
+
+      <!-- Bottom gradient fade -->
+      <div class="fade-out"></div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.stack-showcase {
-  max-width: 1000px;
+.showcase {
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 24px;
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(32px) scale(0.98);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.stack-showcase.visible {
+.showcase.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
-.stack-container {
+/* ── Tab pills ── */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-bottom: 28px;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.tab {
+  padding: 7px 18px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: color 0.25s ease, background 0.25s ease;
+  letter-spacing: 0.005em;
   position: relative;
-  width: 100%;
-  /* Height based on the main card's aspect ratio plus the stack offset */
-  aspect-ratio: 16 / 11;
-  perspective: 1200px;
 }
 
-.stack-card {
+.tab:hover {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.tab.active {
+  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Frame wrapper ── */
+.frame-wrapper {
+  position: relative;
+  cursor: default;
+}
+
+/* ── Ambient glow ── */
+.ambient-glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Frame with tilt ── */
+.frame {
+  position: relative;
+  z-index: 1;
   border-radius: 12px;
   overflow: hidden;
-  cursor: pointer;
-  backface-visibility: hidden;
-
-  /* Default stacked position — each card shifts down and right */
-  transform:
-    translateY(calc(var(--i) * 28px))
-    translateX(calc(var(--i) * 6px))
-    scale(calc(1 - var(--i) * 0.025));
-
-  transition:
-    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.4s ease,
-    filter 0.4s ease,
-    box-shadow 0.4s ease;
-
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0d0d10;
+  transition: transform 0.15s ease-out;
+  will-change: transform;
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.06);
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    0 30px 80px -20px rgba(0, 0, 0, 0.4);
 }
 
-.stack-card img {
+.frame-inner {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.screen-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.01);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
-/* Hovered card — lifts up and forward */
-.stack-card.hovered {
-  transform:
-    translateY(-8px)
-    translateX(0px)
-    scale(1.02);
-  box-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 0 40px rgba(99, 102, 241, 0.06);
-  z-index: 50 !important;
+.screen-img.active {
+  opacity: 1;
+  transform: scale(1);
 }
 
-/* Non-hovered cards dim */
-.stack-card.dimmed {
-  opacity: 0.45;
-  filter: brightness(0.7) saturate(0.8);
+/* ── Subtle shine overlay ── */
+.shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 3;
 }
 
-/* Label overlay — shows on hover */
-.card-label {
+/* ── Bottom fade ── */
+.fade-out {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20px 24px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  height: 100px;
+  background: linear-gradient(to top, var(--vp-c-bg), transparent);
   pointer-events: none;
+  z-index: 4;
 }
 
-.stack-card.hovered .card-label {
-  opacity: 1;
-  transform: translateY(0);
+/* ── Light mode ── */
+:root:not(.dark) .tabs {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.06);
 }
 
-.card-title {
-  display: block;
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: -0.01em;
+:root:not(.dark) .tab {
+  color: rgba(0, 0, 0, 0.35);
 }
 
-.card-desc {
-  display: block;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 2px;
-  letter-spacing: 0.01em;
+:root:not(.dark) .tab:hover {
+  color: rgba(0, 0, 0, 0.65);
 }
 
-/* Mobile: simpler layout */
+:root:not(.dark) .tab.active {
+  background: rgba(0, 0, 0, 0.06);
+  color: #000;
+}
+
+:root:not(.dark) .ambient-glow {
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
+}
+
+:root:not(.dark) .frame {
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    0 12px 40px rgba(0, 0, 0, 0.08),
+    0 30px 80px -20px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Mobile ── */
 @media (max-width: 768px) {
-  .stack-container {
-    aspect-ratio: auto;
-    height: auto;
+  .tabs {
+    gap: 0;
+    overflow-x: auto;
+    width: calc(100% - 8px);
+    justify-content: flex-start;
   }
 
-  .stack-card {
-    position: relative;
-    transform: none;
-    margin-bottom: 12px;
+  .tab {
+    padding: 6px 14px;
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .showcase {
+    padding: 0 12px;
+  }
+
+  .frame {
     border-radius: 8px;
-  }
-
-  .stack-card.hovered {
-    transform: none;
-  }
-
-  .stack-card.dimmed {
-    opacity: 1;
-    filter: none;
-  }
-
-  .card-label {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 </style>
