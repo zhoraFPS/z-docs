@@ -5,6 +5,7 @@ import TrustBar        from './TrustBar.vue'
 import CodeWidget      from './CodeWidget.vue'
 import ScreenshotFrame from './ScreenshotFrame.vue'
 import SpotlightSection from './SpotlightSection.vue'
+import CTABlock        from './CTABlock.vue'
 import './custom.css'
 
 export default {
@@ -16,5 +17,6 @@ export default {
         app.component('CodeWidget',      CodeWidget)
         app.component('ScreenshotFrame', ScreenshotFrame)
         app.component('SpotlightSection', SpotlightSection)
+        app.component('CTABlock',        CTABlock)
     }
 }
