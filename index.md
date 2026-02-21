@@ -35,7 +35,7 @@ hero:
   cta-text="Read the Z-Core Docs"
   cta-link="/core/introduction"
 >
-  <CodeWidget />
+  <CodeWidget tilt="right" />
 </SpotlightSection>
 
 <SpotlightSection
@@ -47,7 +47,7 @@ hero:
   cta-link="/core/developer-api"
   :reverse="true"
 >
-  <CodeWidget />
+  <CodeWidget tilt="left" />
 </SpotlightSection>
 
 </div>

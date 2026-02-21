@@ -1,5 +1,13 @@
 <!-- .vitepress/theme/CodeWidget.vue -->
+<script setup>
+defineProps({
+  tilt: { type: String, default: 'none' },
+})
+</script>
+
 <template>
+  <div :class="['cw-wrapper', `cw-tilt-${tilt}`]">
+  <div class="cw-glow" aria-hidden="true"></div>
   <div class="cw-card">
     <div class="cw-bar">
       <span class="cw-filename">exports.ts</span>
@@ -17,15 +25,68 @@
 <span class="cw-k">const</span> <span class="cw-v">framework</span> <span class="cw-op">=</span> <span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">]</span>
   <span class="cw-p">.</span><span class="cw-fn">GetFramework</span><span class="cw-p">()</span> <span class="cw-c">// "esx" | "qb" | "ox" | "standalone"</span></code></pre>
   </div>
+  </div>
 </template>
 
 <style scoped>
+.cw-wrapper {
+  position: relative;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.cw-tilt-right { transform: perspective(650px) rotateY(-13deg) rotateX(4deg); }
+.cw-tilt-left  { transform: perspective(650px) rotateY(13deg)  rotateX(4deg); }
+
+.cw-wrapper:hover {
+  transform: perspective(650px) rotateY(0deg) rotateX(0deg) scale(1.02) !important;
+}
+
+.cw-glow {
+  position: absolute;
+  bottom: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
+  filter: blur(55px);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cw-wrapper:hover .cw-glow {
+  opacity: 0.6;
+}
+
 .cw-card {
+  position: relative;
+  z-index: 1;
   background: #0d0d10;
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.65s ease;
+}
+
+.cw-tilt-right .cw-card {
+  box-shadow:
+    14px 28px 70px rgba(0, 0, 0, 0.7),
+    0 0 50px rgba(99, 102, 241, 0.1);
+}
+
+.cw-tilt-left .cw-card {
+  box-shadow:
+    -14px 28px 70px rgba(0, 0, 0, 0.7),
+    0 0 50px rgba(99, 102, 241, 0.1);
+}
+
+.cw-wrapper:hover .cw-card {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 60px rgba(99, 102, 241, 0.18),
+    0 28px 60px rgba(0, 0, 0, 0.5);
 }
 
 .cw-bar {
