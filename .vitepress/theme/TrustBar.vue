@@ -4,11 +4,11 @@
     <p class="tb-label">Works with your existing framework</p>
     <div class="tb-badges">
       <span class="tb-badge">ESX</span>
-      <span class="tb-sep">·</span>
+      <span class="tb-sep" aria-hidden="true">·</span>
       <span class="tb-badge">QBCore</span>
-      <span class="tb-sep">·</span>
+      <span class="tb-sep" aria-hidden="true">·</span>
       <span class="tb-badge">ox_core</span>
-      <span class="tb-sep">·</span>
+      <span class="tb-sep" aria-hidden="true">·</span>
       <span class="tb-badge">Standalone</span>
     </div>
   </div>
@@ -55,10 +55,11 @@
   font-size: 18px;
   line-height: 1;
 }
+</style>
 
-/* Light mode */
-:global(:root:not(.dark)) .tb-label { color: rgba(0, 0, 0, 0.35); }
-:global(:root:not(.dark)) .tb-badge { color: rgba(0, 0, 0, 0.4); }
-:global(:root:not(.dark)) .tb-badge:hover { color: rgba(0, 0, 0, 0.85); }
-:global(:root:not(.dark)) .tb-sep { color: rgba(0, 0, 0, 0.15); }
+<style>
+:root:not(.dark) .tb-label { color: rgba(0, 0, 0, 0.35); }
+:root:not(.dark) .tb-badge { color: rgba(0, 0, 0, 0.4); }
+:root:not(.dark) .tb-badge:hover { color: rgba(0, 0, 0, 0.85); }
+:root:not(.dark) .tb-sep  { color: rgba(0, 0, 0, 0.15); }
 </style>
