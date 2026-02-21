@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme'
 import HeroShowcase  from './HeroShowcase.vue'
 import HeroCarousel  from './HeroCarousel.vue'
 import TrustBar      from './TrustBar.vue'
+import CodeWidget    from './CodeWidget.vue'
 import './custom.css'
 
 export default {
@@ -10,5 +11,6 @@ export default {
         app.component('HeroShowcase',  HeroShowcase)
         app.component('HeroCarousel',  HeroCarousel)
         app.component('TrustBar',      TrustBar)
+        app.component('CodeWidget',    CodeWidget)
     }
 }
