@@ -43,6 +43,7 @@ onUnmounted(() => clearInterval(timer))
           :src="s.src"
           :alt="s.alt"
           :class="['hc-img', { 'hc-img--active': i === current }]"
+          :loading="i === 0 ? 'eager' : 'lazy'"
         />
       </div>
     </div>
@@ -52,6 +53,7 @@ onUnmounted(() => clearInterval(timer))
         :key="i"
         :class="['hc-pip', { 'hc-pip--active': i === current }]"
         :aria-label="`Go to slide ${i + 1}`"
+        :aria-current="i === current ? 'true' : undefined"
         @click="goTo(i)"
       />
     </div>
@@ -143,5 +145,9 @@ onUnmounted(() => clearInterval(timer))
 .hc-pip--active {
   background: #6366f1;
   transform: scale(1.3);
+}
+.hc-pip:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 3px;
 }
 </style>
