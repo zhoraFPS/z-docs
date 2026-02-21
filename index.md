@@ -30,8 +30,8 @@ hero:
 <SpotlightSection
   badge="Z-Core"
   headline="One Bridge. Every Framework."
-  body="Z-Core automatically detects whether you're running ESX, QBCore, ox_core, or Standalone — and adapts instantly. Zero configuration changes required on your part."
-  :bullets="['Auto-detects your framework on startup', 'Unified player, job, and inventory API', 'Drop in and go — no server.cfg editing']"
+  body="Z-Core detects whether you're running ESX, QBCore, ox_core, or Standalone at startup — and adapts automatically. Your scripts stay identical across every server."
+  :bullets="['Auto-detects ESX, QBCore, ox_core or Standalone on boot', 'GetPlayer, AddItem, HasPermission — same exports everywhere', 'Drop in as a dependency — no per-framework config needed']"
   cta-text="Read the Z-Core Docs"
   cta-link="/core/introduction"
 >
@@ -41,9 +41,9 @@ hero:
 <SpotlightSection
   badge="Z-Core"
   headline="Developer API that doesn't get in your way."
-  body="Clean exports and server events. Whether you're building a custom script or extending Z-Core, the API stays consistent regardless of the framework underneath."
-  :bullets="['Exports for player data, jobs, money, coords', 'Server events for inventory and framework hooks', 'Full TypeScript-friendly structure']"
-  cta-text="View Exports &amp; Events"
+  body="Clean global exports for everything you need — player data, inventory, bans, warns, permissions, Discord webhooks. One consistent API regardless of what runs underneath."
+  :bullets="['Player data: name, identifier, job, money — one call', 'Built-in inventory, warn, ban &amp; permission exports', 'Full TypeScript types — autocompletion in every IDE']"
+  cta-text="View the API Reference"
   cta-link="/core/developer-api"
   :reverse="true"
 >

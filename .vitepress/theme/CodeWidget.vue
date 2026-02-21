@@ -16,14 +16,14 @@ defineProps({
     <pre class="cw-pre" aria-label="Z-Core API usage example in TypeScript"><code><span class="cw-k">const</span> <span class="cw-v">player</span> <span class="cw-op">=</span> <span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">]</span>
   <span class="cw-p">.</span><span class="cw-fn">GetPlayer</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">)</span>
 
-<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">name</span>   <span class="cw-c">// "John_Doe"</span>
-<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">job</span>    <span class="cw-c">// &#123; name: "police", grade: 2 &#125;</span>
-<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">money</span>  <span class="cw-c">// &#123; cash: 5000, bank: 200 &#125;</span>
-<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">coords</span> <span class="cw-c">// &#123; x: 123.4, y: -456.7, z: 28.1 &#125;</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">name</span>       <span class="cw-c">// "John_Doe"</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">identifier</span> <span class="cw-c">// "steam:110000112345678"</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">job</span>        <span class="cw-c">// &#123; name: "police", grade: 2, label: "Officer" &#125;</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">money</span>      <span class="cw-c">// &#123; cash: 5000, bank: 20000 &#125;</span>
 
-<span class="cw-c">// Works identically on ESX, QBCore, ox_core</span>
-<span class="cw-k">const</span> <span class="cw-v">framework</span> <span class="cw-op">=</span> <span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">]</span>
-  <span class="cw-p">.</span><span class="cw-fn">GetFramework</span><span class="cw-p">()</span> <span class="cw-c">// "esx" | "qb" | "ox" | "standalone"</span></code></pre>
+<span class="cw-c">// Inventory, permissions &amp; moderation — same API everywhere</span>
+<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">AddItem</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'bread'</span><span class="cw-p">,</span> <span class="cw-v">3</span><span class="cw-p">)</span>
+<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">HasPermission</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'ban.players'</span><span class="cw-p">)</span></code></pre>
   </div>
   </div>
 </template>
