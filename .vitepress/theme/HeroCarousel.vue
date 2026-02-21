@@ -27,17 +27,20 @@ onUnmounted(() => clearInterval(timer))
 </script>
 
 <template>
-  <div class="hc-outer" @mouseenter="pause" @mouseleave="resume">
-    <div class="hc-glow" aria-hidden="true"></div>
-    <div class="hc-frame">
-      <img
-        v-for="(s, i) in screenshots"
-        :key="s.src"
-        :src="s.src"
-        :alt="s.alt"
-        :class="['hc-img', { 'hc-img--active': i === current }]"
-        :loading="i === 0 ? 'eager' : 'lazy'"
-      />
+  <div class="hc-wrapper" @mouseenter="pause" @mouseleave="resume">
+    <!-- Stage isolates the glow from the indicators -->
+    <div class="hc-stage">
+      <div class="hc-glow" aria-hidden="true"></div>
+      <div class="hc-frame">
+        <img
+          v-for="(s, i) in screenshots"
+          :key="s.src"
+          :src="s.src"
+          :alt="s.alt"
+          :class="['hc-img', { 'hc-img--active': i === current }]"
+          :loading="i === 0 ? 'eager' : 'lazy'"
+        />
+      </div>
     </div>
     <div class="hc-indicators">
       <button
@@ -53,21 +56,26 @@ onUnmounted(() => clearInterval(timer))
 </template>
 
 <style scoped>
-.hc-outer {
+.hc-wrapper {
   max-width: 900px;
   margin: 56px auto 0;
   padding: 0 24px;
+}
+
+/* Stage = frame + glow only. Indicators are outside, no overlap. */
+.hc-stage {
   position: relative;
+  margin-bottom: 52px;
 }
 
 .hc-glow {
   position: absolute;
-  bottom: -80px;
+  bottom: -60px;
   left: 50%;
   transform: translateX(-50%);
-  width: 75%;
-  height: 280px;
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.28) 0%, transparent 70%);
+  width: 70%;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
   filter: blur(60px);
   pointer-events: none;
   z-index: 0;
@@ -83,7 +91,7 @@ onUnmounted(() => clearInterval(timer))
     0 0 0 1px rgba(255, 255, 255, 0.04),
     0 24px 60px rgba(0, 0, 0, 0.65),
     0 0 80px rgba(99, 102, 241, 0.08);
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1024 / 670;
   background: #0a0a0c;
 }
 
@@ -92,19 +100,16 @@ onUnmounted(() => clearInterval(timer))
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* show full screenshot, no cropping */
   opacity: 0;
   transition: opacity 0.6s ease;
 }
 .hc-img--active { opacity: 1; }
 
 .hc-indicators {
-  position: relative;
-  z-index: 1;
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 24px;
 }
 
 .hc-pip {
