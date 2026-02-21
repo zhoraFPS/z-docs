@@ -5,7 +5,7 @@
       <span class="cw-filename">exports.ts</span>
       <span class="cw-lang">TS</span>
     </div>
-    <pre class="cw-pre"><code><span class="cw-k">const</span> <span class="cw-v">player</span> <span class="cw-op">=</span> <span class="cw-fn">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">]</span>
+    <pre class="cw-pre" aria-label="Z-Core API usage example in TypeScript"><code><span class="cw-k">const</span> <span class="cw-v">player</span> <span class="cw-op">=</span> <span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">]</span>
   <span class="cw-p">.</span><span class="cw-fn">GetPlayer</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">)</span>
 
 <span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">name</span>   <span class="cw-c">// "John_Doe"</span>
@@ -14,7 +14,7 @@
 <span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">coords</span> <span class="cw-c">// &#123; x: 123.4, y: -456.7, z: 28.1 &#125;</span>
 
 <span class="cw-c">// Works identically on ESX, QBCore, ox_core</span>
-<span class="cw-k">const</span> <span class="cw-v">framework</span> <span class="cw-op">=</span> <span class="cw-fn">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">]</span>
+<span class="cw-k">const</span> <span class="cw-v">framework</span> <span class="cw-op">=</span> <span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">]</span>
   <span class="cw-p">.</span><span class="cw-fn">GetFramework</span><span class="cw-p">()</span> <span class="cw-c">// "esx" | "qb" | "ox" | "standalone"</span></code></pre>
   </div>
 </template>
