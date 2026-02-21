@@ -1,12 +1,13 @@
 <!-- .vitepress/theme/HeroCarousel.vue -->
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { withBase } from 'vitepress'
 
 const screenshots = [
-  { src: '/screenshots/dashboard.png', alt: 'Z-Admin Dashboard Overview' },
-  { src: '/screenshots/players.png',   alt: 'Player Management Panel' },
-  { src: '/screenshots/livemap.jpg',   alt: 'Interactive Live Map' },
-  { src: '/screenshots/security.png',  alt: 'Security & Audit Logs' },
+  { src: withBase('/screenshots/dashboard.png'), alt: 'Z-Admin Dashboard Overview' },
+  { src: withBase('/screenshots/players.png'),   alt: 'Player Management Panel' },
+  { src: withBase('/screenshots/livemap.jpg'),   alt: 'Interactive Live Map' },
+  { src: withBase('/screenshots/security.png'),  alt: 'Security & Audit Logs' },
 ]
 
 const current = ref(0)
@@ -27,25 +28,16 @@ onUnmounted(() => clearInterval(timer))
 
 <template>
   <div class="hc-outer" @mouseenter="pause" @mouseleave="resume">
+    <div class="hc-glow" aria-hidden="true"></div>
     <div class="hc-frame">
-      <div class="hc-bar">
-        <div class="hc-dots">
-          <span class="hc-dot hc-dot--red"></span>
-          <span class="hc-dot hc-dot--yellow"></span>
-          <span class="hc-dot hc-dot--green"></span>
-        </div>
-        <div class="hc-url">z-admin.localhost</div>
-      </div>
-      <div class="hc-viewport">
-        <img
-          v-for="(s, i) in screenshots"
-          :key="s.src"
-          :src="s.src"
-          :alt="s.alt"
-          :class="['hc-img', { 'hc-img--active': i === current }]"
-          :loading="i === 0 ? 'eager' : 'lazy'"
-        />
-      </div>
+      <img
+        v-for="(s, i) in screenshots"
+        :key="s.src"
+        :src="s.src"
+        :alt="s.alt"
+        :class="['hc-img', { 'hc-img--active': i === current }]"
+        :loading="i === 0 ? 'eager' : 'lazy'"
+      />
     </div>
     <div class="hc-indicators">
       <button
@@ -62,56 +54,37 @@ onUnmounted(() => clearInterval(timer))
 
 <style scoped>
 .hc-outer {
-  max-width: 860px;
-  margin: 48px auto 0;
+  max-width: 900px;
+  margin: 56px auto 0;
   padding: 0 24px;
+  position: relative;
+}
+
+.hc-glow {
+  position: absolute;
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 280px;
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.28) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hc-frame {
-  border-radius: 12px;
+  position: relative;
+  z-index: 1;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   box-shadow:
-    0 32px 80px rgba(0, 0, 0, 0.6),
     0 0 0 1px rgba(255, 255, 255, 0.04),
-    0 48px 120px rgba(99, 102, 241, 0.12);
-}
-
-.hc-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  background: #141416;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.hc-dots { display: flex; gap: 6px; }
-.hc-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-.hc-dot--red    { background: #ff5f57; }
-.hc-dot--yellow { background: #ffbd2e; }
-.hc-dot--green  { background: #28c840; }
-
-.hc-url {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
-  padding: 3px 12px;
-  flex: 1;
-  text-align: center;
-}
-
-.hc-viewport {
-  position: relative;
+    0 24px 60px rgba(0, 0, 0, 0.65),
+    0 0 80px rgba(99, 102, 241, 0.08);
   aspect-ratio: 16 / 9;
   background: #0a0a0c;
-  overflow: hidden;
 }
 
 .hc-img {
@@ -126,10 +99,12 @@ onUnmounted(() => clearInterval(timer))
 .hc-img--active { opacity: 1; }
 
 .hc-indicators {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .hc-pip {
@@ -144,7 +119,7 @@ onUnmounted(() => clearInterval(timer))
 }
 .hc-pip--active {
   background: #6366f1;
-  transform: scale(1.3);
+  transform: scale(1.4);
 }
 .hc-pip:focus-visible {
   outline: 2px solid #6366f1;
