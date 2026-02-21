@@ -1,7 +1,8 @@
 <!-- .vitepress/theme/CodeWidget.vue -->
 <script setup>
 defineProps({
-  tilt: { type: String, default: 'none' },
+  tilt:    { type: String, default: 'none' },
+  variant: { type: String, default: 'player' },
 })
 </script>
 
@@ -10,20 +11,37 @@ defineProps({
   <div class="cw-glow" aria-hidden="true"></div>
   <div class="cw-card">
     <div class="cw-bar">
-      <span class="cw-filename">exports.ts</span>
+      <span class="cw-filename">{{ variant === 'api' ? 'server.ts' : 'exports.ts' }}</span>
       <span class="cw-lang">TS</span>
     </div>
-    <pre class="cw-pre" aria-label="Z-Core API usage example in TypeScript"><code><span class="cw-k">const</span> <span class="cw-v">player</span> <span class="cw-op">=</span> <span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">]</span>
-  <span class="cw-p">.</span><span class="cw-fn">GetPlayer</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">)</span>
 
-<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">name</span>       <span class="cw-c">// "John_Doe"</span>
-<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">identifier</span> <span class="cw-c">// "steam:110000112345678"</span>
-<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">job</span>        <span class="cw-c">// &#123; name: "police", grade: 2, label: "Officer" &#125;</span>
-<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">money</span>      <span class="cw-c">// &#123; cash: 5000, bank: 20000 &#125;</span>
+    <!-- Variant: player — GetPlayer + unified ZPlayer object -->
+    <pre v-if="variant === 'player'" class="cw-pre" aria-label="Z-Core GetPlayer example"><code><span class="cw-c">// Auto-detects ESX, QBCore, ox_core or Standalone</span>
+<span class="cw-k">const</span> <span class="cw-v">player</span> <span class="cw-op">=</span> <span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">GetPlayer</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">)</span>
 
-<span class="cw-c">// Inventory, permissions &amp; moderation — same API everywhere</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">name</span>        <span class="cw-c">// "John_Doe"</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">identifier</span>  <span class="cw-c">// "steam:110000112345678"</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">job</span>         <span class="cw-c">// &#123; name: "police", grade: 2, label: "Officer" &#125;</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-prop">money</span>       <span class="cw-c">// &#123; cash: 5000, bank: 20000 &#125;</span>
+
+<span class="cw-c">// Identical result on every framework</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-fn">notify</span><span class="cw-p">(</span><span class="cw-s">'Welcome back!'</span><span class="cw-p">,</span> <span class="cw-s">'success'</span><span class="cw-p">)</span>
+<span class="cw-v">player</span><span class="cw-p">.</span><span class="cw-fn">addMoney</span><span class="cw-p">(</span><span class="cw-s">'bank'</span><span class="cw-p">,</span> <span class="cw-v">500</span><span class="cw-p">)</span></code></pre>
+
+    <!-- Variant: api — modular exports for inventory / moderation / permissions -->
+    <pre v-else class="cw-pre" aria-label="Z-Core modular API example"><code><span class="cw-c">// Inventory</span>
 <span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">AddItem</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'bread'</span><span class="cw-p">,</span> <span class="cw-v">3</span><span class="cw-p">)</span>
-<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">HasPermission</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'ban.players'</span><span class="cw-p">)</span></code></pre>
+<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">RemoveItem</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'lockpick'</span><span class="cw-p">,</span> <span class="cw-v">1</span><span class="cw-p">)</span>
+<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">GetItemCount</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'phone'</span><span class="cw-p">)</span>   <span class="cw-c">// → 1</span>
+
+<span class="cw-c">// Moderation</span>
+<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">WarnPlayer</span><span class="cw-p">(</span><span class="cw-s">'Admin'</span><span class="cw-p">,</span> <span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'cheating'</span><span class="cw-p">)</span>
+<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">BanPlayer</span><span class="cw-p">(</span><span class="cw-s">'Admin'</span><span class="cw-p">,</span> <span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'hacking'</span><span class="cw-p">,</span> <span class="cw-v">0</span><span class="cw-p">)</span>
+
+<span class="cw-c">// Permissions</span>
+<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">HasPermission</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">,</span> <span class="cw-s">'ban.players'</span><span class="cw-p">)</span>  <span class="cw-c">// → true</span>
+<span class="cw-v">exports</span><span class="cw-p">[</span><span class="cw-s">'z-core'</span><span class="cw-p">].</span><span class="cw-fn">GetRole</span><span class="cw-p">(</span><span class="cw-v">source</span><span class="cw-p">)</span>                       <span class="cw-c">// → "superadmin"</span></code></pre>
+
   </div>
   </div>
 </template>
